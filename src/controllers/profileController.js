@@ -4,9 +4,6 @@ const Profile = require("../models/profiles");
 const getAllProfiles = (req, res) => {
   Profile.find()
     .then((profile) => {
-      if (profile.length === 0) {
-        return res.status(404).json({ message: "No profiles found" });
-      }
       res.json(profile);
     })
     .catch(() => {
@@ -58,7 +55,7 @@ const updateExistingProfile = (req, res) => {
     .then(() => {
       res.json({ message: "The profile updated successfully" });
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send(err.message);
       } else {
@@ -75,7 +72,7 @@ const deleteProfile = (req, res) => {
     .then(() => {
       res.json({ message: "The profile deleted successfully" });
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send(err.message);
       } else {
